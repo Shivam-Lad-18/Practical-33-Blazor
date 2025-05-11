@@ -39,6 +39,7 @@ else
                     <td>@item.Category</td>
                     <td>@item.PaymentMethod</td>
                     <td>
+                        <button class="btn btn-sm btn-info" @onclick="() => View(item.ExpenseId)">View</button>
                         <button class="btn btn-sm btn-warning" @onclick="() => Edit(item.ExpenseId)">Edit</button>
                         <button class="btn btn-sm btn-danger" @onclick="() => Delete(item.ExpenseId)">Delete</button>
                     </td>
@@ -78,5 +79,9 @@ else
             await expense_service.DeleteExpenseAsync(id);
             expenses = await expense_service.GetAllExpensesAsync();
         }
+    }
+    private void View(Guid id)
+    {
+        NavigationManager.NavigateTo($"/view-expense/{id}");
     }
 }

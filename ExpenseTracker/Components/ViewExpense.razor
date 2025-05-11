@@ -1,0 +1,39 @@
+﻿@page "/view-expense/{Id:guid}"
+@inject ExpenseService expense_service
+@inject NavigationManager NavigationManager
+
+<h3>Expense Details</h3>
+
+@if (expense == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="card p-3">
+        <p><strong>Title:</strong> @expense.Title</p>
+        <p><strong>Note:</strong> @expense.Note</p>
+        <p><strong>Amount:</strong> @expense.Amount.ToString("C")</p>
+        <p><strong>Date:</strong> @expense.Date.ToShortDateString()</p>
+        <p><strong>Category:</strong> @expense.Category</p>
+        <p><strong>Payment Method:</strong> @expense.PaymentMethod</p>
+        <button class="btn btn-secondary" @onclick="BackToList">Back</button>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private Expense? expense;
+
+    protected override async Task OnInitializedAsync()
+    {
+        expense = await expense_service.GetExpenseByIdAsync(Id);
+    }
+
+    private void BackToList()
+    {
+        NavigationManager.NavigateTo("/expense-list");
+    }
+}
