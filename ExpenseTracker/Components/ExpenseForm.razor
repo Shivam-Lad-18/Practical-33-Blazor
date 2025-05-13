@@ -11,18 +11,18 @@
 
     <div class="mb-3">
         <label class="form-label">Title</label>
-        <InputText class="form-control" @bind-Value="expense.Title" />
+        <InputText class="form-control" @bind-Value="expense.Title" placeholder="Enter expense title" />
         <ValidationMessage For="@(() => expense.Title)" />
     </div>
 
     <div class="mb-3">
         <label class="form-label">Note</label>
-        <InputTextArea class="form-control" @bind-Value="expense.Note" />
+        <InputTextArea class="form-control" @bind-Value="expense.Note" placeholder="Optional notes..." />
     </div>
 
     <div class="mb-3">
         <label class="form-label">Amount</label>
-        <InputNumber class="form-control" @bind-Value="expense.Amount" />
+        <InputNumber class="form-control" @bind-Value="expense.Amount" placeholder="0.00" />
         <ValidationMessage For="@(() => expense.Amount)" />
     </div>
 
@@ -68,6 +68,7 @@
         {
             var exp = await expense_service.GetExpenseByIdAsync(Id.Value);
             if (exp != null)
+            {
                 expense = new Expense
                     {
                         ExpenseId = exp.ExpenseId,
@@ -78,6 +79,11 @@
                         Category = exp.Category,
                         PaymentMethod = exp.PaymentMethod
                     };
+            }
+        }
+        else
+        {
+            expense.Date = DateTime.Today;
         }
     }
 
